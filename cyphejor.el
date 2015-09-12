@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'subr-x)
 
 (defgroup cyphejor nil
   "Shorten major mode names using user-defined rules"
@@ -39,11 +40,100 @@
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/cyphejor"))
 
 (defcustom cyphejor-rules nil
-  "TODO")
+  "Rules used to convert names of major modes.
+
+Every element of the list must be either a list:
+
+  (STRING REPLACEMENT &rest PARAMETERS)
+
+where STRING is a “word” in major mode symbol name, REPLACEMENT
+is another string to be used instead, PARAMETERS is a list that
+may be empty but may have the following keywords in it as well:
+
+  :prefix  — put it in the beginning of result string
+  :postfix — put it in the end of result string
+
+Apart from elements of the form described above the following
+keywords are allowed (they influence the algorithm in general):
+
+  :downcase — replace words that are not specified explicitly
+  with their first letter downcased
+
+  :upcase — replace words that are not specified explicitely with
+  their first letter upcased
+
+If nothing is specified, use word unchanged separating it from
+other words with spaces if necessary."
+  :tag  "Active Rules"
+  :type '(repeat
+          (choice
+           (const :tag "use first downcased letter" :lowercase)
+           (const :tag "use first upcased letter"    :upcase)
+           (list string string)
+           (list string string
+                 (choice (const :tag "put it in the beginning" :prefix)
+                         (const :tag "put it in the end"       :postfix))))))
+
+(defvar cyphejor-built-in-rules
+  '(:upcase
+    ("buffer"      "β")
+    ("dired"       "δ")
+    ("emacs"       "ε")
+    ("fundamental" "Ⓕ")
+    ("interaction" "i" :prefix)
+    ("interactive" "i" :prefix)
+    ("lisp"        "λ" :postfix)
+    ("menu"        "▤" :postfix)
+    ("mode"        "")
+    ("package"     "↓")
+    ("text"        "ξ"))
+  "This is rules that are available out of box.
+
+For format of this variable see `cyphejor-rules'.")
 
 (defun cyphejor--cypher (old-name rules)
-  "Convert OLD-NAME into its shorter form following RULES."
-  nil) ;; TODO
+  "Convert OLD-NAME into its shorter form following RULES.
+
+Format of RULES is described in doc-string of `cyphejor-rules'.
+
+OLD-NAME must be a string where “words” are separated with
+punctuation characters.  Casing of every words doesn't matter
+because the whole thing will be downcased first."
+  (let ((words    (split-string (downcase old-name) "[[:punct:]]" t))
+        (downcase (cl-find :downcase rules))
+        (upcase   (cl-find :upcase   rules))
+        prefix-words
+        postfix-words
+        conversion-table
+        prefix-result
+        result
+        postfix-result)
+    (dolist (rule (cl-remove-if-not #'listp rules))
+      (let ((before (car      rule))
+            (after  (cadr     rule))
+            (where  (cl-caddr rule)))
+        (push (cons before after) conversion-table)
+        (cl-case where
+          (:prefix  (push before prefix-words))
+          (:postfix (push before postfix-words)))))
+    (dolist (word words)
+      (let ((translated
+             (or (cdr (assoc word conversion-table))
+                 (cond (downcase (cl-subseq word 0 1))
+                       (upcase   (upcase (cl-subseq word 0 1)))
+                       (t        (format " %s " word))))))
+        (cond ((cl-find word prefix-words)
+               (push translated prefix-result))
+              ((cl-find word postfix-words)
+               (push translated postfix-result))
+              (t
+               (push translated result)))))
+    (string-trim
+     (apply #'concat
+            (mapcar (lambda (x) (apply #'concat (reverse x)))
+                    (list prefix-result
+                          result
+                          postfix-result))))))
 
 (defun cyphejor--hook ()
   "Set `mode-name' according of symbol name in `major-mode'.
