@@ -67,29 +67,12 @@ other words with spaces if necessary."
   :tag  "Active Rules"
   :type '(repeat
           (choice
-           (const :tag "use first downcased letter" :lowercase)
-           (const :tag "use first upcased letter"    :upcase)
+           (const :tag "use first downcased letter" :downcase)
+           (const :tag "use first upcased letter"   :upcase)
            (list string string)
            (list string string
                  (choice (const :tag "put it in the beginning" :prefix)
                          (const :tag "put it in the end"       :postfix))))))
-
-(defvar cyphejor-built-in-rules
-  '(:upcase
-    ("buffer"      "β")
-    ("dired"       "δ")
-    ("emacs"       "ε")
-    ("fundamental" "Ⓕ")
-    ("interaction" "i" :prefix)
-    ("interactive" "i" :prefix)
-    ("lisp"        "λ" :postfix)
-    ("menu"        "▤" :postfix)
-    ("mode"        "")
-    ("package"     "↓")
-    ("text"        "ξ"))
-  "This is rules that are available out of box.
-
-For format of this variable see `cyphejor-rules'.")
 
 (defun cyphejor--cypher (old-name rules)
   "Convert OLD-NAME into its shorter form following RULES.
@@ -122,9 +105,9 @@ because the whole thing will be downcased first."
                  (cond (downcase (cl-subseq word 0 1))
                        (upcase   (upcase (cl-subseq word 0 1)))
                        (t        (format " %s " word))))))
-        (cond ((cl-find word prefix-words)
+        (cond ((member word prefix-words)
                (push translated prefix-result))
-              ((cl-find word postfix-words)
+              ((member word postfix-words)
                (push translated postfix-result))
               (t
                (push translated result)))))
@@ -162,7 +145,10 @@ information."
   :global t
   (funcall (if cyphejor-mode #'add-hook #'remove-hook)
            'after-change-major-mode-hook
-           #'cyphejor--hook))
+           #'cyphejor--hook)
+  (if cyphejor-mode
+      (advice-add 'wdired-change-to-dired-mode :after #'cyphejor--hook)
+    (advice-remove 'wdired-change-to-dired-mode #'cyphejor--hook)))
 
 (provide 'cyphejor)
 
