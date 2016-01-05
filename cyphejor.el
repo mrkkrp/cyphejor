@@ -3,7 +3,7 @@
 ;; Copyright © 2015 Mark Karpov <markkarpov@openmailbox.org>
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
-;; URL: https://github.com/cyphejor
+;; URL: https://github.com/mrkkrp/cyphejor
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.4"))
 ;; Keywords: mode-line major-mode
