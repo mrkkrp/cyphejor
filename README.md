@@ -45,7 +45,7 @@ allowed (they influence the algorithm in general):
 * `:downcase` — replace words that are not specified explicitly
   with their first letter downcased
 
-* `:upcase` — replace words that are not specified explicitely with their
+* `:upcase` — replace words that are not specified explicitly with their
   first letter upcased
 
 If nothing is specified, use word unchanged separating it from other words
