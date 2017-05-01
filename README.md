@@ -4,7 +4,8 @@
 [![MELPA](https://melpa.org/packages/cyphejor-badge.svg)](https://melpa.org/#/cyphejor)
 [![Build Status](https://travis-ci.org/mrkkrp/cyphejor.svg?branch=master)](https://travis-ci.org/mrkkrp/cyphejor)
 
-This package allows to shorten major mode names using user-defined rules.
+This package allows to shorten major mode names using a set of user-defined
+rules.
 
 ## Installation
 
@@ -21,7 +22,7 @@ cyphejor RET</kbd>.
 
 ## Usage
 
-First you need to set value of variable `cyphejor-rules`. This variable
+First you need to set value of the variable `cyphejor-rules`. This variable
 contains rules that the package uses to generate new names for major modes
 from their symbol names (values of `major-mode` variable).
 
@@ -43,15 +44,15 @@ Apart from elements of the form described above the following keywords are
 allowed (they influence the algorithm in general):
 
 * `:downcase` — replace words that are not specified explicitly
-  with their first letter downcased
+  with their first letter down-cased
 
 * `:upcase` — replace words that are not specified explicitly with their
-  first letter upcased
+  first letter upper-cased
 
 If nothing is specified, use word unchanged separating it from other words
 with spaces if necessary.
 
-Example of setup:
+An Example of setup:
 
 ```emacs-lisp
 (setq
@@ -62,7 +63,6 @@ Example of setup:
    ("diff"        "Δ")
    ("dired"       "δ")
    ("emacs"       "ε")
-   ("fundamental" "Ⓕ")
    ("inferior"    "i" :prefix)
    ("interaction" "i" :prefix)
    ("interactive" "i" :prefix)
@@ -85,8 +85,7 @@ Next, just enable `cyphejor-mode` in your configuration file:
 ## Customization
 
 Access customization interface via <kbd>M-x customize-group cyphejor
-RET</kbd>. Currently you can only edit `cyphejor-rules` variable and toggle
-`cyphejor-mode` on and off.
+RET</kbd>.
 
 ## License
 
