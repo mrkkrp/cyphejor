@@ -43,7 +43,7 @@
 (defcustom cyphejor-rules nil
   "Rules used to convert names of major modes.
 
-Every element of the list must be either a list:
+Every element of the list must be of the following form:
 
   (STRING REPLACEMENT &rest PARAMETERS)
 
@@ -51,20 +51,20 @@ where STRING is a “word” in major mode symbol name, REPLACEMENT
 is another string to be used instead, PARAMETERS is a list that
 may be empty but may have the following keywords in it as well:
 
-  :prefix  — put it in the beginning of result string
-  :postfix — put it in the end of result string
+  :prefix—put it in the beginning of result string
+  :postfix—put it in the end of result string
 
 Apart from elements of the form described above the following
 keywords are allowed (they influence the algorithm in general):
 
-  :downcase — replace words that are not specified explicitly
-  with their first letter downcased
+  :downcase—replace words that are not specified explicitly with
+  their first letter downcased
 
-  :upcase — replace words that are not specified explicitly with
+  :upcase—replace words that are not specified explicitly with
   their first letter upcased
 
-If nothing is specified, use word unchanged separating it from
-other words with spaces if necessary."
+If nothing is specified, a word will be used unchanged, separated
+from other words with spaces if necessary."
   :tag  "Active Rules"
   :type '(repeat
           (choice
@@ -78,11 +78,12 @@ other words with spaces if necessary."
 (defun cyphejor--cypher (old-name rules)
   "Convert OLD-NAME into its shorter form following RULES.
 
-Format of RULES is described in doc-string of `cyphejor-rules'.
+Format of RULES is described in the doc-string of
+`cyphejor-rules'.
 
 OLD-NAME must be a string where “words” are separated with
-punctuation characters.  Casing of every words doesn't matter
-because the whole thing will be downcased first."
+punctuation characters.  Case doesn't matter because the whole
+thing will be downcased first."
   (let ((words    (split-string (downcase old-name) "[[:punct:]]" t))
         (downcase (cl-find :downcase rules))
         (upcase   (cl-find :upcase   rules))
@@ -120,7 +121,7 @@ because the whole thing will be downcased first."
                           postfix-result))))))
 
 (defun cyphejor--hook ()
-  "Set `mode-name' according of symbol name in `major-mode'.
+  "Set `mode-name' according to the symbol name in `major-mode'.
 
 This uses `cyphejor--cypher' and `cyphejor-rules' to generate new
 mode name."
@@ -131,7 +132,7 @@ mode name."
 
 ;;;###autoload
 (define-minor-mode cyphejor-mode
-  "Toggle `cyphejor-mode' minor mode.
+  "Toggle the `cyphejor-mode' minor mode.
 
 With a prefix argument ARG, enable `cyphejor-mode' if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable

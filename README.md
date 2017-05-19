@@ -10,7 +10,7 @@ rules.
 ## Installation
 
 If you would like to install the package manually, download or clone it and
-put on Emacs' `load-path`, then you can require it in your init file like
+put on Emacs' `load-path`. Then you can require it in your init file like
 this:
 
 ```emacs-lisp
@@ -26,8 +26,8 @@ First you need to set value of the variable `cyphejor-rules`. This variable
 contains rules that the package uses to generate new names for major modes
 from their symbol names (values of `major-mode` variable).
 
-Value of `cyphejor-rules` should be a list. Every element of the list must
-be either a list:
+Value of `cyphejor-rules` should be a list. Every element of the list should
+have the following form:
 
 ```emacs-lisp
 (string replacement &rest parameters)
@@ -37,22 +37,22 @@ where `string` is a “word” in major mode symbol name, `replacement` is
 another string to be used instead, `parameters` is a list that may be empty
 but may have the following keywords in it as well:
 
-* `:prefix` — put it in the beginning of result string
-* `:postfix` — put it in the end of result string
+* `:prefix`—put it in the beginning of result string
+* `:postfix`—put it in the end of result string
 
 Apart from elements of the form described above the following keywords are
 allowed (they influence the algorithm in general):
 
-* `:downcase` — replace words that are not specified explicitly
-  with their first letter down-cased
+* `:downcase`—replace words that are not specified explicitly with their
+  first letter downcased
 
-* `:upcase` — replace words that are not specified explicitly with their
-  first letter upper-cased
+* `:upcase`—replace words that are not specified explicitly with their first
+  letter upcased
 
-If nothing is specified, use word unchanged separating it from other words
-with spaces if necessary.
+If nothing is specified, a word will be used unchanged, separated from other
+words with spaces if necessary.
 
-An Example of setup:
+Example of a setup:
 
 ```emacs-lisp
 (setq
@@ -84,7 +84,7 @@ Next, just enable `cyphejor-mode` in your configuration file:
 
 ## Customization
 
-Access customization interface via <kbd>M-x customize-group cyphejor
+Access the customization interface via <kbd>M-x customize-group cyphejor
 RET</kbd>.
 
 ## License
