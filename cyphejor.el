@@ -162,7 +162,10 @@ information."
         (advice-add 'get-buffer-create :after #'cyphejor--fundamental-mode-advice))
     (progn
       (advice-remove 'wdired-change-to-dired-mode #'cyphejor--hook)
-      (advice-remove 'get-buffer-create #'cyphejor--fundamental-mode-advice))))
+      (advice-remove 'get-buffer-create #'cyphejor--fundamental-mode-advice)))
+  (when cyphejor-mode
+    (mapc (lambda (buffer) (with-current-buffer buffer (cyphejor--hook)))
+          (buffer-list))))
 
 (provide 'cyphejor)
 
