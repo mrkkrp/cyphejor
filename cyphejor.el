@@ -131,9 +131,9 @@ mode name."
          cyphejor-rules)))
 
 (defun cyphejor--fundamental-mode-advice (buffer)
-  "Set `mode-name' of BUFFER according to the symbol name in `major-mode', \
-but only do so when the buffer is in fundamental mode."
+  "Set `mode-name' of BUFFER according to the symbol name in `major-mode'.
 
+Only do so when the buffer is in fundamental mode."
   (with-current-buffer buffer
     (when (string= mode-name "Fundamental")
       (cyphejor--hook))))
@@ -160,11 +160,12 @@ information."
       (progn
         (advice-add 'wdired-change-to-dired-mode :after #'cyphejor--hook)
         (advice-add 'get-buffer-create :after #'cyphejor--fundamental-mode-advice))
-    (progn
-      (advice-remove 'wdired-change-to-dired-mode #'cyphejor--hook)
-      (advice-remove 'get-buffer-create #'cyphejor--fundamental-mode-advice)))
+    (advice-remove 'wdired-change-to-dired-mode #'cyphejor--hook)
+    (advice-remove 'get-buffer-create #'cyphejor--fundamental-mode-advice))
   (when cyphejor-mode
-    (mapc (lambda (buffer) (with-current-buffer buffer (cyphejor--hook)))
+    (mapc (lambda (buffer)
+            (with-current-buffer buffer
+              (cyphejor--hook)))
           (buffer-list))))
 
 (provide 'cyphejor)
