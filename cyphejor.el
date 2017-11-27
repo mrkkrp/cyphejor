@@ -135,7 +135,7 @@ mode name."
 
 Only do so when the buffer is in fundamental mode."
   (with-current-buffer buffer
-    (when (and (stringp mode-name) (string= mode-name "Fundamental"))
+    (when (eq major-mode 'fundamental-mode)
       (cyphejor--hook))))
 
 ;;;###autoload
