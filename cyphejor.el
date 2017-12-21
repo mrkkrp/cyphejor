@@ -136,7 +136,8 @@ mode name."
 Only do so when the buffer is in fundamental mode."
   (with-current-buffer buffer
     (when (eq major-mode 'fundamental-mode)
-      (cyphejor--hook))))
+      (save-match-data
+        (cyphejor--hook)))))
 
 ;;;###autoload
 (define-minor-mode cyphejor-mode
