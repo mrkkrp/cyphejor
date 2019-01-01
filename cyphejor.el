@@ -1,6 +1,6 @@
 ;;; cyphejor.el --- Shorten major mode names using user-defined rules -*- lexical-binding: t; -*-
 ;;
-;; Copyright © 2015–2018 Mark Karpov <markkarpov92@gmail.com>
+;; Copyright © 2015–2019 Mark Karpov <markkarpov92@gmail.com>
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/cyphejor
