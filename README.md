@@ -89,6 +89,6 @@ RET</kbd>.
 
 ## License
 
-Copyright © 2015–2019 Mark Karpov
+Copyright © 2015–present Mark Karpov
 
 Distributed under GNU GPL, version 3.
