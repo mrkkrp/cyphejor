@@ -130,7 +130,7 @@ mode name."
          (symbol-name major-mode)
          cyphejor-rules)))
 
-(defun cyphejor--fundamental-mode-advice (buffer)
+(defun cyphejor--fundamental-mode-advice (buffer &optional inhibit-buffer-hooks)
   "Set `mode-name' of BUFFER according to the symbol name in `major-mode'.
 
 Only do so when the buffer is in fundamental mode."
