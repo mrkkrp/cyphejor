@@ -4,10 +4,12 @@
 [![MELPA](https://melpa.org/packages/cyphejor-badge.svg)](https://melpa.org/#/cyphejor)
 ![CI](https://github.com/mrkkrp/cyphejor/workflows/CI/badge.svg?branch=master)
 
-This package allows to shorten major mode names using a set of user-defined
-rules.
+This package shortens major mode names by using a set of user-defined rules.
 
 ## Installation
+
+The package is available via MELPA, so you can just type `M-x
+package-install RET cyphejor RET`.
 
 If you would like to install the package manually, download or clone it and
 put on Emacs' `load-path`. Then you can require it in your init file like
@@ -17,36 +19,32 @@ this:
 (require 'cyphejor)
 ```
 
-It's available via MELPA, so you can just <kbd>M-x package-install RET
-cyphejor RET</kbd>.
-
 ## Usage
 
-First you need to set value of the variable `cyphejor-rules`. This variable
-contains rules that the package uses to generate new names for major modes
-from their symbol names (values of `major-mode` variable).
+First, you need to set the value of the variable `cyphejor-rules`. This
+variable contains rules that are used to generate new names for major modes
+from their symbol names, that is, values of the `major-mode` variable.
 
-Value of `cyphejor-rules` should be a list. Every element of the list should
-have the following form:
+`cyphejor-rules` should be a list. Every element of the list should have the
+following form:
 
 ```emacs-lisp
 (string replacement &rest parameters)
 ```
 
-where `string` is a “word” in major mode symbol name, `replacement` is
-another string to be used instead, `parameters` is a list that may be empty
-but may have the following keywords in it as well:
+where `string` is a word in the major mode's symbol name, `replacement` is a
+string to be used instead of that word, `parameters` is a list that may
+contain the following keywords:
 
-* `:prefix`—put it in the beginning of result string
-* `:postfix`—put it in the end of result string
+* `:prefix`—put the component at the beginning of the resulting string
+* `:postfix`—put the component at the end of resulting string
 
-Apart from elements of the form described above the following keywords are
-allowed (they influence the algorithm in general):
+The following keywords influence the algorithm in general:
 
-* `:downcase`—replace words that are not specified explicitly with their
-  first letter downcased
+* `:downcase`—replace words that are not matched explicitly with their first
+  letter downcased
 
-* `:upcase`—replace words that are not specified explicitly with their first
+* `:upcase`—replace words that are not matched explicitly with their first
   letter upcased
 
 If nothing is specified, a word will be used unchanged, separated from other
@@ -76,7 +74,7 @@ Example of a setup:
    ("wdired"      "↯δ")))
 ```
 
-Next, just enable `cyphejor-mode` in your configuration file:
+`cyphejor-mode` can be enabled like this:
 
 ```emacs-lisp
 (cyphejor-mode 1)
@@ -84,8 +82,8 @@ Next, just enable `cyphejor-mode` in your configuration file:
 
 ## Customization
 
-Access the customization interface via <kbd>M-x customize-group cyphejor
-RET</kbd>.
+You can access the customization interface via `M-x customize-group cyphejor
+RET`.
 
 ## License
 

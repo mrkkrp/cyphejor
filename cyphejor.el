@@ -25,8 +25,7 @@
 
 ;;; Commentary:
 
-;; This package allows to shorten major mode names using a set of
-;; user-defined rules.
+;; This package shortens major mode names by using a set of user-defined rules.
 
 ;;; Code:
 
@@ -47,25 +46,24 @@ Every element of the list must be of the following form:
 
   (STRING REPLACEMENT &rest PARAMETERS)
 
-where STRING is a “word” in major mode symbol name, REPLACEMENT
-is another string to be used instead, PARAMETERS is a list that
-may be empty but may have the following keywords in it as well:
+where STRING is a word in the major mode's symbol name,
+REPLACEMENT is a string to be used instead of that word,
+PARAMETERS is a list that may contain the following keywords:
 
-  :prefix—put it in the beginning of result string
-  :postfix—put it in the end of result string
+  :prefix—put it at the beginning of result string
+  :postfix—put it at the end of result string
 
-Apart from elements of the form described above the following
-keywords are allowed (they influence the algorithm in general):
+The following keywords influence the algorithm in general:
 
-  :downcase—replace words that are not specified explicitly with
+  :downcase—replace words that are not matched explicitly with
   their first letter downcased
 
-  :upcase—replace words that are not specified explicitly with
+  :upcase—replace words that are not matched explicitly with
   their first letter upcased
 
 If nothing is specified, a word will be used unchanged, separated
 from other words with spaces if necessary."
-  :tag  "Active Rules"
+  :tag  "Active rules"
   :type '(repeat
           (choice
            (const :tag "use first downcased letter" :downcase)
@@ -76,14 +74,13 @@ from other words with spaces if necessary."
                          (const :tag "put it in the end"       :postfix))))))
 
 (defun cyphejor--cypher (old-name rules)
-  "Convert OLD-NAME into its shorter form following RULES.
+  "Convert the OLD-NAME into its shorter form following RULES.
 
-Format of RULES is described in the doc-string of
+The format of RULES is described in the doc-string of
 `cyphejor-rules'.
 
-OLD-NAME must be a string where “words” are separated with
-punctuation characters.  Case doesn't matter because the whole
-thing will be downcased first."
+OLD-NAME must be a string where words are separated with
+punctuation characters."
   (let ((words    (split-string (downcase old-name) "[[:punct:]]" t))
         (downcase (cl-find :downcase rules))
         (upcase   (cl-find :upcase   rules))
@@ -130,10 +127,13 @@ mode name."
          (symbol-name major-mode)
          cyphejor-rules)))
 
-(defun cyphejor--fundamental-mode-advice (buffer &optional inhibit-buffer-hooks)
+(defun cyphejor--fundamental-mode-advice (buffer &optional _inhibit-buffer-hooks)
   "Set `mode-name' of BUFFER according to the symbol name in `major-mode'.
 
-Only do so when the buffer is in fundamental mode."
+Only do so when the buffer is in fundamental mode.
+
+INHIBIT-BUFFER-HOOKS is accepted for compatibility reasons and
+has no effect."
   (with-current-buffer buffer
     (when (eq major-mode 'fundamental-mode)
       (save-match-data
@@ -148,10 +148,9 @@ positive, and disable it otherwise.  If called from Lisp, enable
 the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
-This global minor mode shortens names of major modes
-automatically following user-defined rules in
-`cyphejor-rules'. See description of the variable for more
-information."
+This global minor mode shortens names of major modes by using a
+set of user-defined rules in `cyphejor-rules'.  See the
+description of the variable for more information."
   nil "" nil
   :global t
   (funcall (if cyphejor-mode #'add-hook #'remove-hook)
