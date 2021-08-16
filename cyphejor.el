@@ -61,13 +61,17 @@ The following keywords influence the algorithm in general:
   :upcase—replace words that are not matched explicitly with
   their first letter upcased
 
+  :capitalize—replace words that are not matched explicitly with
+  the same words but capitalizing their first letters.
+
 If nothing is specified, a word will be used unchanged, separated
 from other words with spaces if necessary."
   :tag  "Active rules"
   :type '(repeat
           (choice
-           (const :tag "use first downcased letter" :downcase)
-           (const :tag "use first upcased letter"   :upcase)
+           (const :tag "use first downcased letter"  :downcase)
+           (const :tag "use first upcased letter"    :upcase)
+           (const :tag "capitalize the first letter" :capitalize)
            (list string string)
            (list string string
                  (choice (const :tag "put it in the beginning" :prefix)
@@ -81,9 +85,10 @@ The format of RULES is described in the doc-string of
 
 OLD-NAME must be a string where words are separated with
 punctuation characters."
-  (let ((words    (split-string (downcase old-name) "[\b\\-]+" t))
-        (downcase (cl-find :downcase rules))
-        (upcase   (cl-find :upcase   rules))
+  (let ((words      (split-string (downcase old-name) "[\b\\-]+" t))
+        (downcase   (cl-find :downcase   rules))
+        (upcase     (cl-find :upcase     rules))
+        (capitalize (cl-find :capitalize rules))
         prefix-words
         postfix-words
         conversion-table
@@ -101,9 +106,10 @@ punctuation characters."
     (dolist (word words)
       (let ((translated
              (or (cdr (assoc word conversion-table))
-                 (cond (downcase (cl-subseq word 0 1))
-                       (upcase   (upcase (cl-subseq word 0 1)))
-                       (t        (format " %s " word))))))
+                 (cond (downcase   (cl-subseq word 0 1))
+                       (upcase     (upcase (cl-subseq word 0 1)))
+                       (capitalize (capitalize word))
+                       (t          (format " %s " word))))))
         (cond ((member word prefix-words)
                (push translated prefix-result))
               ((member word postfix-words)
