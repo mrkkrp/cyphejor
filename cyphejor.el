@@ -81,7 +81,7 @@ The format of RULES is described in the doc-string of
 
 OLD-NAME must be a string where words are separated with
 punctuation characters."
-  (let ((words    (split-string (downcase old-name) "[[:punct:]]" t))
+  (let ((words    (split-string (downcase old-name) "[\b\\-]+" t))
         (downcase (cl-find :downcase rules))
         (upcase   (cl-find :upcase   rules))
         prefix-words
