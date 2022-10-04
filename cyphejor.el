@@ -157,7 +157,9 @@ the mode if ARG is omitted or NIL, and toggle it if ARG is
 This global minor mode shortens names of major modes by using a
 set of user-defined rules in `cyphejor-rules'.  See the
 description of the variable for more information."
-  nil "" nil
+  :init-value nil
+  :lighter ""
+  :keymap nil
   :global t
   (funcall (if cyphejor-mode #'add-hook #'remove-hook)
            'after-change-major-mode-hook
