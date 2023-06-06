@@ -6,7 +6,7 @@
 ;; URL: https://github.com/mrkkrp/cyphejor
 ;; Version: 0.1.2
 ;; Package-Requires: ((emacs "24.4"))
-;; Keywords: mode-line major-mode
+;; Keywords: convenience
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -33,7 +33,7 @@
 (require 'subr-x)
 
 (defgroup cyphejor nil
-  "Shorten major mode names using user-defined rules"
+  "Shorten major mode names using user-defined rules."
   :group  'convenience
   :tag    "Cyphejor"
   :prefix "cyphejor-"
