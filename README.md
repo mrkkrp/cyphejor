@@ -2,7 +2,7 @@
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![MELPA](https://melpa.org/packages/cyphejor-badge.svg)](https://melpa.org/#/cyphejor)
-![CI](https://github.com/mrkkrp/cyphejor/workflows/CI/badge.svg?branch=master)
+[![CI](https://github.com/mrkkrp/cyphejor/actions/workflows/ci.yaml/badge.svg)](https://github.com/mrkkrp/cyphejor/actions/workflows/ci.yaml)
 
 This package shortens major mode names by using a set of user-defined rules.
 
