@@ -50,8 +50,8 @@ where STRING is a word in the major mode's symbol name,
 REPLACEMENT is a string to be used instead of that word,
 PARAMETERS is a list that may contain the following keywords:
 
-  :prefix—put it at the beginning of result string
-  :postfix—put it at the end of result string
+  :prefix—put it at the beginning of the result string
+  :postfix—put it at the end of the result string
 
 The following keywords influence the algorithm in general:
 
@@ -126,8 +126,8 @@ punctuation characters."
 (defun cyphejor--hook ()
   "Set `mode-name' according to the symbol name in `major-mode'.
 
-This uses `cyphejor--cypher' and `cyphejor-rules' to generate new
-mode name."
+This uses `cyphejor--cypher' and `cyphejor-rules' to generate the
+new mode name."
   (setq mode-name
         (cyphejor--cypher
          (symbol-name major-mode)

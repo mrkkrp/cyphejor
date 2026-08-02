@@ -37,7 +37,7 @@ string to be used instead of that word, `parameters` is a list that may
 contain the following keywords:
 
 * `:prefix`—put the component at the beginning of the resulting string
-* `:postfix`—put the component at the end of resulting string
+* `:postfix`—put the component at the end of the resulting string
 
 The following keywords influence the algorithm in general:
 
